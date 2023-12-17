@@ -1,9 +1,12 @@
-import React from 'react'
+import React from "react";
+import Helmet from "../components/Helmet/Helmet";
 
 function Cart() {
   return (
-    <div>Cart</div>
-  )
+    <div>
+      <Helmet title="Cart" />
+    </div>
+  );
 }
 
-export default Cart
+export default Cart;
