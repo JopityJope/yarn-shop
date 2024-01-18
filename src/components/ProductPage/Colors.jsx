@@ -5,22 +5,30 @@ function Colors({ selectedYarn }) {
   console.log(selectedYarn);
   return (
     <>
-      <h2 className="heading-secondary">
-        {selectedYarn.colorNames.length} colors in {selectedYarn.name}
-      </h2>
+      {selectedYarn.colorNames && selectedYarn.name ? (
+        <h2 className="heading-secondary">
+          {selectedYarn.colorNames.length} colors in {selectedYarn.name}
+        </h2>
+      ) : null}
+
       <div className="colors">
         {Array.from({ length: `${selectedYarn.colorNames.length}` }).map(
           (_, i) => (
             <div key={i} className="color">
-              <img
-                src={`/${transformYarnName(selectedYarn.name)}/colors/${
-                  i + 1
-                }.jpg`}
-                alt=""
-                loading="lazy"
-                className="color__image"
-              />
-              <p className="color__name">{selectedYarn.colorNames[i]}</p>
+              {selectedYarn.name && (
+                <img
+                  src={`/${transformYarnName(selectedYarn.name)}/colors/${
+                    i + 1
+                  }.jpg`}
+                  alt=""
+                  loading="lazy"
+                  className="color__image"
+                />
+              )}
+
+              {selectedYarn.colorNames && (
+                <p className="color__name">{selectedYarn.colorNames[i]}</p>
+              )}
             </div>
           )
         )}

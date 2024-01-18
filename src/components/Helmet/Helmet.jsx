@@ -2,7 +2,7 @@ import React from "react";
 
 function Helmet(props) {
   document.title = `Drops - ${props.title}`;
-  return <div>{props.children}</div>;
+  return <>{props.children}</>;
 }
 
 export default Helmet;

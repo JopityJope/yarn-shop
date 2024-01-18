@@ -1,5 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import { calculateSale } from "../../utils/utils";
 
 function ProductHeading({ selectedYarn }) {
   return (
@@ -9,14 +10,34 @@ function ProductHeading({ selectedYarn }) {
           <ol className="breadcrumb">
             <Link to="/">All yarns</Link>
           </ol>
-          <ol className="breadcrumb"> / {selectedYarn.name}</ol>
+          {selectedYarn.name && (
+            <ol className="breadcrumb"> / {selectedYarn.name}</ol>
+          )}
         </nav>
-        <h2 className="heading-secondary">{selectedYarn.name}</h2>
-        <h3 className="heading-tertiary">{selectedYarn.description}</h3>
+
+        {selectedYarn.name && (
+          <h2 className="heading-secondary">{selectedYarn.name}</h2>
+        )}
+
+        {selectedYarn.description && (
+          <h3 className="heading-tertiary">{selectedYarn.description}</h3>
+        )}
       </div>
-      <div className="product__price">
-        <p className="product__price">{selectedYarn.price} €</p>
-      </div>
+
+      {selectedYarn.price && (
+        <div className="product__price">
+          {!selectedYarn.sale ? (
+            <p className="product__price">{selectedYarn.price}€</p>
+          ) : (
+            <>
+              <p className="yarn__price--old">{selectedYarn.price}€</p>
+              <p className="yarn__price--sale">
+                {calculateSale(selectedYarn.price)}€
+              </p>
+            </>
+          )}
+        </div>
+      )}
     </div>
   );
 }

@@ -5,17 +5,15 @@ import Colors from "../components/ProductPage/Colors";
 import ProductHeading from "../components/ProductPage/ProductHeading";
 import ProductDetails from "../components/ProductPage/ProductDetails";
 import Helmet from "../components/Helmet/Helmet";
-import { db } from "../firebase-config";
-import { collection, getDocs } from "firebase/firestore";
-
-const yarnsCollectionRef = collection(db, "yarns");
+import { useYarnContext } from "../contexts/YarnContext";
+import Spinner from "../components/Icons/Spinner";
 
 function ProductPage() {
+  const { yarns } = useYarnContext();
   const [isSmallScreen, setIsSmallScreen] = useState(
     () => window.innerWidth <= 700
   );
   const { yarnId } = useParams();
-  const [selectedYarn, setSelectedYarn] = useState();
 
   useEffect(() => {
     const handleResize = () => {
@@ -30,27 +28,12 @@ function ProductPage() {
     };
   }, []);
 
-  useEffect(() => {
-    const getYarnList = async () => {
-      if (!yarnId) {
-        return; // If yarnId is not available, exit early
-      }
-
-      const data = await getDocs(yarnsCollectionRef);
-      const yarnList = data.docs.map((doc) => ({ ...doc.data(), id: doc.id }));
-
-      const yarn = yarnList.find((yarn) => yarn.id === yarnId);
-      setSelectedYarn(yarn);
-    };
-
-    getYarnList();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [yarnId]);
+  const selectedYarn = yarns.find((yarn) => yarn.id === yarnId);
 
   console.log(selectedYarn);
 
   if (!selectedYarn) {
-    return <p>Loading...</p>;
+    return <Spinner />;
   }
 
   return (
@@ -60,38 +43,28 @@ function ProductPage() {
         {isSmallScreen ? (
           <>
             <div className="product__row">
-              {selectedYarn ? (
-                <ProductHeading selectedYarn={selectedYarn} />
-              ) : null}
+              <ProductHeading selectedYarn={selectedYarn} />
             </div>
             <div className="product__row">
-              {selectedYarn ? (
-                <Carousel selectedYarn={selectedYarn} />
-              ) : (
-                <p>Loading...</p>
-              )}
+              <Carousel selectedYarn={selectedYarn} />
             </div>
             <div className="product__row">
               <div className="product__text">
-                {selectedYarn ? (
-                  <ProductDetails selectedYarn={selectedYarn} />
-                ) : null}
+                <ProductDetails selectedYarn={selectedYarn} />
               </div>
             </div>
           </>
         ) : (
           <>
             <div className="product__row">
-              {selectedYarn ? <Carousel selectedYarn={selectedYarn} /> : null}
+              <Carousel selectedYarn={selectedYarn} />
             </div>
             <div className="product__row">
               <div className="product__text">
-                {selectedYarn ? (
-                  <>
-                    <ProductHeading selectedYarn={selectedYarn} />
-                    <ProductDetails selectedYarn={selectedYarn} />
-                  </>
-                ) : null}
+                <>
+                  <ProductHeading selectedYarn={selectedYarn} />
+                  <ProductDetails selectedYarn={selectedYarn} />
+                </>
               </div>
             </div>
           </>

@@ -6,8 +6,10 @@ import Cart from "./icons/Cart";
 import Search from "./icons/Search";
 import SearchForm from "./icons/SearchForm";
 import { useEffect, useState } from "react";
+import { useAuth } from "../../contexts/AuthContext";
 
 function Header() {
+  const { currentUser } = useAuth();
   const [isSmallScreen, setIsSmallScreen] = useState(
     () => window.innerWidth <= 990
   );
@@ -79,7 +81,7 @@ function Header() {
             </NavLink>
           </div>
           <div className="nav__item">
-            <NavLink to="login">
+            <NavLink to={currentUser ? "/profile" : "/login"}>
               <span className="nav__icon">
                 <User />
               </span>

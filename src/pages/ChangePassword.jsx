@@ -1,16 +1,17 @@
 import React, { useState } from "react";
 import Helmet from "../components/Helmet/Helmet";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useAuth } from "../contexts/AuthContext";
 
-function LogIn() {
-  const [email, setEmail] = useState("");
+function ChangePassword() {
+  const [newEmail, setNewEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
+  const [message, setMessage] = useState("");
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
-  const { login } = useAuth();
+  const { changeEmail } = useAuth();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -18,40 +19,32 @@ function LogIn() {
     try {
       setError("");
       setLoading(true);
-      await login(email, password);
-      navigate("/profile");
+      await changeEmail(newEmail, password);
+      /*   setMessage("Please check your e-mail for a verification link."); */
     } catch (error) {
-      if (error.code === "auth/invalid-email") {
-        setError("Please provide a valid email");
-      } else if (error.code === "auth/invalid-login-credentials") {
-        setError("Invalid login credentials");
-      } else if (error.code === "auth/too-many-requests") {
-        setError("Too many failed login attempts");
-      } else {
-        setError("Failed to log-in. Please try again later");
-      }
+      setError("Failed to update e-mail");
+    } finally {
+      setLoading(false);
     }
-    setLoading(false);
   };
-
   return (
     <>
       <Helmet title="Log in" />
       <div className="login__container">
         <form className="login" onSubmit={handleSubmit}>
-          <h3 className="heading-secondary">Log in to your account</h3>
-          <p className="message message--error">{error}</p>
+          <h3 className="heading-secondary">Update e-mail</h3>
+          <p>{error}</p>
           <div className="input__wrapper">
             <input
               id="mail"
               className="login__input"
               type="mail"
               required
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
+              value={newEmail}
+              onChange={(e) => setNewEmail(e.target.value)}
             />
             <label className="login__label" htmlFor="mail">
-              E-mail
+              New e-mail
             </label>
           </div>
           <div className="input__wrapper">
@@ -59,29 +52,22 @@ function LogIn() {
               id="password"
               className="login__input"
               type="password"
+              required
               value={password}
               onChange={(e) => setPassword(e.target.value)}
             />
-            <label className="login__label" htmlFor="passwprd">
+            <label className="login__label" htmlFor="mail">
               Password
             </label>
           </div>
+
           <button disabled={loading} className="login__button" type="submit">
-            Log in
+            Update
           </button>
-          <Link to="/forgotten-password" className="password__link" href="">
-            Have you forgotten your password?
-          </Link>
         </form>
-        <div className="signup">
-          <h1 className="heading-secondary">Need an account?</h1>
-          <Link className="login__button" to="/signup">
-            Register
-          </Link>
-        </div>
       </div>
     </>
   );
 }
 
-export default LogIn;
+export default ChangePassword;

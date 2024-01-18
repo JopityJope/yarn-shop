@@ -1,25 +1,12 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import DropdownItem from "../../components/Shop/DropdownItem";
 import DropdownIcon from "../Icons/DropdownIcon";
 import Filtering from "../Icons/Filtering";
 import Checkbox from "../Icons/Checkbox";
+import { useYarnContext } from "../../contexts/YarnContext";
 
-function Filter({
-  contentFilter,
-  handleContentFilterClick,
-  yarnGroupFilter,
-  selectedContentIndex,
-  handleYarnGroupFilterClick,
-  selectedYarnGroupIndex,
-  handleSaleClick,
-  saleChecked,
-  handleSortingClick,
-  selectedSortingIndex,
-  activeIndex,
-  dropdownRefs,
-  handleFilterItemClick,
-  dropdownRefMobile,
-}) {
+function Filter() {
+  const { yarns, updateYarns, loading } = useYarnContext();
   const [isSmallScreen, setIsSmallScreen] = useState(
     () => window.innerWidth <= 760
   );
@@ -74,6 +61,86 @@ function Filter({
     setIsContentActive(false);
     setIsYarnGroupActive(false);
   };
+
+  //Active dropdown
+  const [activeIndex, setActiveIndex] = useState(null);
+  const handleFilterItemClick = (index, e) => {
+    e.stopPropagation();
+    setActiveIndex((prevIndex) => (prevIndex === index ? null : index));
+  };
+
+  const [selectedContentIndex, setSelectedContentIndex] = useState(null);
+  const [selectedYarnGroupIndex, setSelectedYarnGroupIndex] = useState(null);
+  const [selectedSortingIndex, setSelectedSortingIndex] = useState(null);
+
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  const dropdownRefs = [useRef(null), useRef(null), useRef(null)];
+
+  const dropdownRefMobile = useRef(null);
+
+  useEffect(() => {
+    const closeDropdowns = (e) => {
+      const shouldClose = dropdownRefs.every(
+        (ref) => ref.current && !ref.current.contains(e.target)
+      );
+
+      if (shouldClose) {
+        setActiveIndex(null);
+      }
+    };
+
+    document.addEventListener("click", closeDropdowns);
+
+    return () => {
+      document.removeEventListener("click", closeDropdowns);
+    };
+  }, [dropdownRefs]);
+
+  // Filtering - content
+  const [contentFilter, setContentFilter] = useState("");
+  const handleContentFilterClick = (element, index) => {
+    setSelectedContentIndex(index);
+    setContentFilter(element.name === "all" ? "" : element.name);
+  };
+
+  // Filtering - yarn group
+  const [yarnGroupFilter, setYarnGroupFilter] = useState("");
+  const handleYarnGroupFilterClick = (element, index) => {
+    setYarnGroupFilter(element.name === "all" ? "" : `${element.thickness}`);
+    setSelectedYarnGroupIndex(index);
+  };
+
+  // Sorting - yarn group
+  const [sortingFilter, setSortingFilter] = useState("");
+
+  const handleSortingClick = (element, index) => {
+    setSortingFilter(element.name);
+    setSelectedSortingIndex(index);
+  };
+
+  // Sale check
+  const [saleChecked, setSaleChecked] = useState(false);
+  const handleSaleClick = () => {
+    setSaleChecked((prevChecked) => {
+      return !prevChecked;
+    });
+  };
+
+  // Clear filters
+  const clearFilters = () => {
+    setContentFilter("");
+    setYarnGroupFilter("");
+    setSaleChecked(false);
+    setSortingFilter("");
+    setSelectedContentIndex(null);
+    setSelectedYarnGroupIndex(null);
+    setSelectedSortingIndex(null);
+  };
+
+  useEffect(() => {
+    updateYarns(contentFilter, yarnGroupFilter, saleChecked, sortingFilter);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [contentFilter, yarnGroupFilter, saleChecked, sortingFilter]);
 
   const MobileFiltering = () => (
     <>
@@ -268,7 +335,20 @@ function Filter({
       </div>
     </>
   );
-  return <> {isSmallScreen ? <MobileFiltering /> : <DesktopFiltering />}</>;
+  return (
+    <>
+      {isSmallScreen ? <MobileFiltering /> : <DesktopFiltering />}
+      {yarns.length === 0 && !loading && (
+        <p className="no-yarns__message">
+          We're sorry, but there are no yarns matching your search. Try a
+          different combination of filters.
+          <button onClick={clearFilters} className="clear-filter__button">
+            Clear filters
+          </button>
+        </p>
+      )}
+    </>
+  );
 }
 
 export default Filter;

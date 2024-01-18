@@ -9,15 +9,21 @@ function Carousel({ selectedYarn }) {
 
   return (
     <div className="carousel">
-      {Array.from({ length: 5 }).map((_, i) => (
-        <img
-          src={`/${transformYarnName(selectedYarn.name)}/yarn_${i}.jpg`}
-          alt="yarn"
-          className={`carousel__main ${i === currentIndex ? "active" : ""} `}
-          loading="lazy"
-          key={i}
-        />
-      ))}
+      {selectedYarn.name && (
+        <>
+          {Array.from({ length: 5 }).map((_, i) => (
+            <img
+              src={`/${transformYarnName(selectedYarn.name)}/yarn_${i}.jpg`}
+              alt="yarn"
+              className={`carousel__main ${
+                i === currentIndex ? "active" : ""
+              } `}
+              loading="lazy"
+              key={i}
+            />
+          ))}
+        </>
+      )}
 
       <div className="carousel__indicators">
         {Array.from({ length: 5 }).map((_, i) => (

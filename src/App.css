@@ -31,13 +31,15 @@ body {
 :root {
   --color-primary: #faf7f4;
   --color-primary-2: #f6f1eb;
+  --color-primary-3: #ede5db;
+  --color-primary-4: #eddbd5;
   --color-text: #333;
   --color-text-light: #999;
   --color-text-light-2: #ddd;
   --color-text-hover: #cb857c;
   --color-sale: #df4655;
-  --color-secondray: #ede5db;
-  --color-tertiary: #eddbd5;
+  --color-button: #bc9787;
+  --color-button-hover: #aa8879;
 }
 
 /* Typography */
@@ -250,7 +252,7 @@ a {
 }
 
 .search__btn--mobile:hover {
-  background-color: var(--color-tertiary);
+  background-color: var(--color-primary-4);
 }
 
 @media (max-width: 990px) {
@@ -748,13 +750,14 @@ a {
   flex-direction: column;
   width: 100%;
 }
+
 .product__heading {
   display: flex;
-  gap: 2rem;
 }
 
 .product__price {
   margin-left: auto;
+  font-size: 1.8rem;
 }
 .product__details {
   font-size: 1.6rem;
@@ -875,4 +878,149 @@ a {
   font-size: 1.1rem;
   line-height: 1;
   padding-bottom: 1rem;
+}
+
+/* Log in */
+
+.login__container {
+  display: flex;
+  max-width: 120rem;
+  width: 100%;
+  margin: auto;
+}
+
+.login {
+  display: flex;
+  flex-direction: column;
+  padding: 3rem;
+  gap: 1.5rem;
+  min-width: 35rem;
+}
+
+.login__button {
+  background-color: var(--color-button);
+  border: none;
+  padding: 1rem 3rem;
+  margin-top: 2rem;
+  color: #fff;
+  cursor: pointer;
+  transition: all 0.1s;
+  font-size: 1.5rem;
+  width: fit-content;
+}
+
+.login__button a {
+  color: #fff;
+}
+.login__input {
+  border: 1px solid #fff;
+  height: 4rem;
+  width: 100%;
+  outline: 1px solid var(--color-primary-2);
+  font-size: 1rem;
+  font-family: "Lato", sans-serif;
+  padding: 0 1rem;
+  font-size: 1.4rem;
+  margin-top: 2rem;
+  transition: all 1s;
+  color: var(--color-text);
+}
+.input__wrapper {
+  position: relative;
+  padding-top: 1.3rem;
+}
+
+.login__label {
+  position: absolute;
+  top: 1.3rem;
+  left: 0;
+  padding: 2.8rem 1rem;
+  font-size: 1.4rem;
+  color: var(--color-button);
+  transition: all 0.2s;
+  pointer-events: none;
+}
+
+.login__input:focus {
+  outline: 1px solid var(--color-button);
+}
+
+.login__input:not([value=""]) + .login__label {
+  transform: translateY(-3.5rem) translateX(-0.5rem) scale(0.85);
+}
+
+.login__input:focus + .login__label {
+  transform: translateY(-3.5rem) translateX(-0.5rem) scale(0.85);
+}
+
+.login__button:hover,
+.login__button a:hover {
+  background-color: var(--color-button-hover);
+}
+
+.password__link {
+  font-size: 1.5rem;
+  transition: all 0.2s;
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  width: fit-content;
+}
+.password__link:hover {
+  color: var(--color-button);
+}
+.signup {
+  display: flex;
+  flex-direction: column;
+  padding: 3rem;
+  gap: 1.5rem;
+  margin-left: 2rem;
+}
+
+@media (max-width: 700px) {
+  .login__container {
+    flex-direction: column;
+  }
+
+  .signup {
+    margin-left: 0;
+    margin-top: 2rem;
+  }
+}
+
+.profile__container {
+  display: flex;
+  max-width: 120rem;
+  width: 100%;
+  margin: auto;
+  flex-direction: column;
+  gap: 1.5rem;
+  padding: 1rem 3rem;
+}
+
+.update__link {
+  display: flex;
+}
+.update__text {
+  font-size: 1.4rem;
+  line-height: 1;
+}
+
+.update__text--uppercase {
+  font-size: 1.4rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.message {
+  position: absolute;
+  transform: translateY(3.5rem);
+  color: var(--color-button);
+  text-transform: uppercase;
+  font-size: 1.5rem;
+  font-weight: 600;
+}
+
+.message--error {
+  color: var(--color-sale);
 }
