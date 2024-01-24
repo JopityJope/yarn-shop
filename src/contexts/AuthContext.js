@@ -70,15 +70,22 @@ export function AuthProvider({ children }) {
 
     const firstName = userData[0].firstName;
     const lastName = userData[0].lastName;
-    return { firstName, lastName };
+    const id = userData[0].id;
+    return { firstName, lastName, id };
   }
 
-  function deleteData(collectionName, docId) {
-    return deleteDoc(doc(db, collectionName, docId));
+  function deleteData(id) {
+    return deleteDoc(doc(db, "users", id));
   }
 
-  function updateData(collectionName, docId, newData) {
-    return updateDoc(doc(db, collectionName, docId), newData);
+  async function updateFirstName(id, newData) {
+    console.log(id, newData);
+    return updateDoc(doc(db, "users", id), { firstName: newData });
+  }
+
+  async function updateLastName(id, newData) {
+    console.log(id, newData);
+    return updateDoc(doc(db, "users", id), { lastName: newData });
   }
 
   async function changeEmail(email, password) {
@@ -93,7 +100,7 @@ export function AuthProvider({ children }) {
     }
   }
 
-  function deleteAccount() {
+  async function deleteAccount() {
     const user = auth.currentUser;
     return deleteUser(user);
   }
@@ -118,7 +125,8 @@ export function AuthProvider({ children }) {
     deleteAccount,
     addData,
     deleteData,
-    updateData,
+    updateFirstName,
+    updateLastName,
     getData,
     usersCollectionRef,
   };

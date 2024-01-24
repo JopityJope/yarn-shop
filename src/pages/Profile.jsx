@@ -4,7 +4,7 @@ import { useAuth } from "../contexts/AuthContext";
 import { useNavigate, Link } from "react-router-dom";
 
 function Profile() {
-  const { currentUser, logout, deleteAccount, getData } = useAuth();
+  const { currentUser, logout, deleteAccount, getData, deleteData } = useAuth();
   const [error, setError] = useState("");
   const [userData, setUserData] = useState({});
   const navigate = useNavigate();
@@ -26,6 +26,8 @@ function Profile() {
     e.preventDefault();
     setError("");
     try {
+      const { id } = await getData();
+      await deleteData(id);
       await deleteAccount();
       navigate("/login");
     } catch {

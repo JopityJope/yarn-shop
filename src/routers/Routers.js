@@ -12,6 +12,8 @@ import Profile from "../pages/Profile";
 import { useAuth } from "../contexts/AuthContext";
 import UpdateEmail from "../pages/UpdateEmail";
 import ForgottenPassword from "../pages/ForgottenPassword";
+import UpdateFirstName from "../pages/UpdateFirstName";
+import UpdateLastName from "../pages/UpdateLastName";
 
 function Routers() {
   const { currentUser } = useAuth();
@@ -38,6 +40,8 @@ function Routers() {
       />
       <Route path="/profile/change-password" element={<UpdatePassword />} />
       <Route path="/profile/update-email" element={<UpdateEmail />} />
+      <Route path="/profile/update-firstname" element={<UpdateFirstName />} />
+      <Route path="/profile/update-lastname" element={<UpdateLastName />} />
       <Route
         path="/forgotten-password"
         element={
