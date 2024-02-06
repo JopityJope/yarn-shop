@@ -7,11 +7,18 @@ import Search from "./icons/Search";
 import SearchForm from "./icons/SearchForm";
 import { useEffect, useState } from "react";
 import { useAuth } from "../../contexts/AuthContext";
+import { useCart } from "../../contexts/CartContext";
 
 function Header() {
   const { currentUser } = useAuth();
   const [isSmallScreen, setIsSmallScreen] = useState(
     () => window.innerWidth <= 990
+  );
+  const { cartItems } = useCart();
+
+  const totalQuantity = cartItems.reduce(
+    (total, cartItem) => total + cartItem.quantity,
+    0
   );
 
   useEffect(() => {
@@ -76,7 +83,7 @@ function Header() {
             <NavLink to="cart">
               <span className="nav__icon">
                 <Cart />
-                <span className="nav__cart-number">1</span>
+                <span className="nav__cart-number">{totalQuantity}</span>
               </span>
             </NavLink>
           </div>

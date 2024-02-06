@@ -30,8 +30,6 @@ function ProductPage() {
 
   const selectedYarn = yarns.find((yarn) => yarn.id === yarnId);
 
-  console.log(selectedYarn);
-
   if (!selectedYarn) {
     return <Spinner />;
   }
@@ -39,6 +37,7 @@ function ProductPage() {
   return (
     <div className="product">
       <Helmet title={selectedYarn.name} />
+
       <div className="product__container">
         {isSmallScreen ? (
           <>

@@ -4,7 +4,7 @@ import { useAuth } from "../contexts/AuthContext";
 import { useNavigate, Link } from "react-router-dom";
 
 function Profile() {
-  const { currentUser, logout, deleteAccount, getData, deleteData } = useAuth();
+  const { currentUser, logout, getData } = useAuth();
   const [error, setError] = useState("");
   const [userData, setUserData] = useState({});
   const navigate = useNavigate();
@@ -22,18 +22,24 @@ function Profile() {
     fetchUserData();
   }, [getData]);
 
-  const handleDelete = async (e) => {
+  /*   const handleDelete = async (e) => {
     e.preventDefault();
     setError("");
+
     try {
-      const { id } = await getData();
-      await deleteData(id);
+      const userData = await getData();
+
+      if (userData) {
+        const { id } = userData;
+        await deleteData(id);
+      }
       await deleteAccount();
       navigate("/login");
-    } catch {
-      setError("Failed to delete an account");
+    } catch (error) {
+      console.error("Failed to delete account:", error.message);
+      setError("Failed to delete account");
     }
-  };
+  }; */
 
   const handleLogout = async (e) => {
     e.preventDefault();
@@ -88,9 +94,12 @@ function Profile() {
         <button className="login__button" onClick={handleLogout}>
           Log out
         </button>
-        <button className="password__link" onClick={handleDelete}>
-          Delete your account
-        </button>
+
+        <Link to="delete-acount" className="password__link">
+          <div>
+            <p className="update__text--uppercase"> Delete your account</p>
+          </div>
+        </Link>
       </div>
     </>
   );

@@ -18,6 +18,7 @@ import {
   doc,
   query,
   getDocs,
+  getDoc,
   where,
 } from "firebase/firestore";
 
@@ -32,6 +33,67 @@ const usersCollectionRef = collection(db, "users");
 export function AuthProvider({ children }) {
   const [currentUser, setCurrentUser] = useState();
   const [loading, setLoading] = useState(true);
+
+  /*  useEffect(() => {
+    const unsubscribeAuthStateChange = auth.onAuthStateChanged(async (user) => {
+      setCurrentUser(user);
+      let fetchedCart = [];
+      let fetchedWishlist = [];
+
+      if (user) {
+        console.log("user logged in");
+        try {
+          const userData = await getData();
+          if (userData) {
+            const { cart, wishlist } = userData;
+            fetchedCart = cart;
+            fetchedWishlist = wishlist;
+            console.log(cart);
+            updateCart(fetchedCart);
+            updateWishlist(fetchedWishlist);
+          }
+        } catch (error) {
+          console.log(error);
+        }
+      }
+    });
+
+    return () => unsubscribeAuthStateChange();
+  }, []); */
+
+  /*  useEffect(() => {
+    const unsubscribeAuthStateChange = auth.onAuthStateChanged(async (user) => {
+      if (user) {
+        console.log("logged in");
+      } else {
+        console.log("logged out");
+      }
+    });
+
+    return () => unsubscribeAuthStateChange();
+  }, []);
+ */
+  /*   useEffect(() => {
+    const unsubscribeAuthStateChange = auth.onAuthStateChanged((user) => {
+      setCurrentUser(user);
+
+      if (user) {
+        const fetchUserData = async () => {
+          try {
+            const { cart } = await getData();
+            console.log(cart);
+          } catch (error) {
+            console.log(error);
+          }
+        };
+        fetchUserData();
+      } else {
+        localStorage.removeItem("cart");
+      }
+    });
+
+    return () => unsubscribeAuthStateChange();
+  }, []); */
 
   function signup(email, password) {
     return createUserWithEmailAndPassword(auth, email, password);
@@ -58,20 +120,60 @@ export function AuthProvider({ children }) {
     return addDoc(collection(db, "users"), data);
   }
 
-  async function getData() {
-    const user = auth.currentUser;
-    const userQuery = await getDocs(
-      query(collection(db, "users"), where("email", "==", user.email))
-    );
-    const userData = userQuery.docs.map((doc) => ({
-      ...doc.data(),
-      id: doc.id,
-    }));
+  async function updateUserField(fieldName, value) {
+    try {
+      if (currentUser) {
+        const userData = await getData();
+        if (userData) {
+          const id = userData.id;
+          const userRef = doc(db, "users", id);
+          const userDoc = await getDoc(userRef);
 
-    const firstName = userData[0].firstName;
-    const lastName = userData[0].lastName;
-    const id = userData[0].id;
-    return { firstName, lastName, id };
+          if (userDoc.exists()) {
+            await updateDoc(userRef, { [fieldName]: value });
+          } else {
+            console.error("User document not found");
+          }
+        } else {
+          console.error("User data not available");
+        }
+      }
+    } catch (error) {
+      console.error("Error updating user field:", error.message);
+    }
+  }
+
+  async function updateWishlist(wishlist) {
+    await updateUserField("wishlist", wishlist);
+  }
+
+  async function updateCart(cart) {
+    await updateUserField("cart", cart);
+  }
+
+  async function getData() {
+    try {
+      if (currentUser) {
+        const user = auth.currentUser;
+        const userQuery = await getDocs(
+          query(collection(db, "users"), where("email", "==", user.email))
+        );
+
+        if (userQuery.docs.length > 0) {
+          const userData = userQuery.docs[0].data();
+          return { ...userData, id: userQuery.docs[0].id };
+        } else {
+          console.error("User document not found");
+
+          return null;
+        }
+      }
+      return null;
+    } catch (error) {
+      console.error("Error fetching user data:", error.message);
+
+      return null;
+    }
   }
 
   function deleteData(id) {
@@ -100,9 +202,18 @@ export function AuthProvider({ children }) {
     }
   }
 
-  async function deleteAccount() {
-    const user = auth.currentUser;
-    return deleteUser(user);
+  async function deleteAccount(password) {
+    try {
+      const user = auth.currentUser;
+      const credential = EmailAuthProvider.credential(user.email, password);
+      await reauthenticateWithCredential(user, credential);
+      await deleteUser(user);
+
+      return true;
+    } catch (error) {
+      console.error("Error deleting account:", error.message);
+      throw error;
+    }
   }
 
   useEffect(() => {
@@ -129,6 +240,8 @@ export function AuthProvider({ children }) {
     updateLastName,
     getData,
     usersCollectionRef,
+    updateWishlist,
+    updateCart,
   };
   return (
     <AuthContext.Provider value={value}>

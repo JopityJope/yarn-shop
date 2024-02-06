@@ -27,10 +27,12 @@ function ProductHeading({ selectedYarn }) {
       {selectedYarn.price && (
         <div className="product__price">
           {!selectedYarn.sale ? (
-            <p className="product__price">{selectedYarn.price}€</p>
+            <p className="product__price">{selectedYarn.price.toFixed(2)}€</p>
           ) : (
             <>
-              <p className="yarn__price--old">{selectedYarn.price}€</p>
+              <p className="yarn__price--old">
+                {selectedYarn.price.toFixed(2)}€
+              </p>
               <p className="yarn__price--sale">
                 {calculateSale(selectedYarn.price)}€
               </p>
