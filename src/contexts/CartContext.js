@@ -16,7 +16,7 @@ export const CartProvider = ({ children }) => {
     const existingCartItems = [...cartItems];
 
     const existingItemIndex = existingCartItems.findIndex(
-      (cartItem) => cartItem.item === item && cartItem.color === color
+      (cartItem) => cartItem.item.id === item.id && cartItem.color === color
     );
 
     if (existingItemIndex !== -1) {

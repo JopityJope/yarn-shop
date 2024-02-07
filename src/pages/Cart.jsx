@@ -126,7 +126,7 @@ function Cart() {
                       </p>
                     ) : (
                       <p className="cart__price">
-                        {(cartItem.item.price * cartItem.quantity).toFixed(2)}€
+                        {cartItem.item.price.toFixed(2)}€
                       </p>
                     )}
                     {cartItem.item.sale ? (
@@ -147,6 +147,7 @@ function Cart() {
                       </p>
                     ) : (
                       <p className="cart__price">
+                        Total: &nbsp;
                         {(cartItem.item.price * cartItem.quantity).toFixed(2)}€
                       </p>
                     )}

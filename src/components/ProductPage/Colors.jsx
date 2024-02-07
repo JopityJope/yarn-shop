@@ -4,8 +4,10 @@ import Close from "../Header/icons/Close";
 import { transformYarnName, calculateSale } from "../../utils/utils";
 import Heart from "../Icons/Heart";
 import HeartFilled from "../Icons/HeartFilled";
+import BagFilled from "../Icons/BagFilled";
 import { useWishlist } from "../../contexts/WishlistContext";
 import { useCart } from "../../contexts/CartContext";
+import { Link } from "react-router-dom";
 
 function Colors({ selectedYarn }) {
   const [isOpen, setIsOpen] = useState(false);
@@ -14,8 +16,12 @@ function Colors({ selectedYarn }) {
   const [quantity, setQuantity] = useState(1);
   const [selectedColor, setSelectedColor] = useState("");
   const { wishlistItems, addToWishlist, removeFromWishlist } = useWishlist();
-  const { addToCart } = useCart();
+  const { addToCart, cartItems } = useCart();
 
+  const totalQuantity = cartItems.reduce(
+    (total, cartItem) => total + cartItem.quantity,
+    0
+  );
   const isInWishlistModal = wishlistItems.some(
     (wishlistItem) =>
       wishlistItem.item.id === selectedYarn.id &&
@@ -58,6 +64,7 @@ function Colors({ selectedYarn }) {
     try {
       setIsLoading(true);
       await addToCart(selectedYarn, selectedColor, quantity);
+      setQuantity(1);
       setIsLoading(false);
       setIsAddedToCart(true);
 
@@ -100,6 +107,11 @@ function Colors({ selectedYarn }) {
 
       {isOpen && <div className="overlay" onClick={closeModal}></div>}
       <Modal className="modal__product" open={isOpen}>
+        <Link to="/cart" className="modal__cart">
+          <BagFilled>
+            <p className="modal__cart-number">{totalQuantity}</p>{" "}
+          </BagFilled>
+        </Link>
         <div className="modal__close-btn" onClick={closeModal}>
           <Close />
         </div>

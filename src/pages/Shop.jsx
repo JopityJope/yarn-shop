@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { useYarnContext } from "../contexts/YarnContext";
 import Filter from "../components/Shop/Filter";
@@ -8,6 +8,11 @@ import { transformYarnName, calculateSale } from "../utils/utils";
 
 function Shop() {
   const { yarns, loading } = useYarnContext();
+  const [loaded, setLoaded] = useState({});
+
+  const handleLoad = (yarnId) => {
+    setLoaded((prevLoaded) => ({ ...prevLoaded, [yarnId]: true }));
+  };
 
   //Collection ref
   /* const yarnsCollectionRef = collection(db, "yarns");
@@ -70,21 +75,34 @@ function Shop() {
 
                   {yarn.name && yarn.id ? (
                     <Link to={`product-page/${yarn.id}`}>
-                      <img
-                        className="yarn__photo-01"
-                        src={`${transformYarnName(
-                          yarn.name
-                        )}/yarn_preview_01.jpg`}
-                        alt={yarn.name}
-                      />
-
-                      <img
-                        className="yarn__photo-02"
-                        src={`${transformYarnName(
-                          yarn.name
-                        )}/yarn_preview_02.jpg`}
-                        alt={yarn.name}
-                      />
+                      <div
+                        className={`blur-load ${
+                          loaded[yarn.id] ? "loaded" : ""
+                        }`}
+                        style={{
+                          backgroundImage: `url(${transformYarnName(
+                            yarn.name
+                          )}/yarn_preview_01--small.jpg)`,
+                        }}
+                      >
+                        <img
+                          className="yarn__photo-01"
+                          src={`${transformYarnName(
+                            yarn.name
+                          )}/yarn_preview_01.jpg`}
+                          alt={yarn.name}
+                          onLoad={() => handleLoad(yarn.id)}
+                        />
+                      </div>
+                      <div>
+                        <img
+                          className="yarn__photo-02"
+                          src={`${transformYarnName(
+                            yarn.name
+                          )}/yarn_preview_02.jpg`}
+                          alt={yarn.name}
+                        />
+                      </div>
                     </Link>
                   ) : null}
                 </div>

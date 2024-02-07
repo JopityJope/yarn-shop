@@ -569,9 +569,32 @@ a {
 .yarn__photo {
   position: relative;
   width: 100%;
+  overflow: hidden;
+  max-width: 100%;
+}
+
+.blur-load {
+  width: 100%;
   padding-top: 100%;
   overflow: hidden;
   max-width: 100%;
+  background-size: cover;
+  background-position: center;
+  filter: blur(5px);
+  transition: filter 0.3s ease;
+}
+
+.blur-load > img {
+  opacity: 0;
+  transition: opacity 0.2s ease-in-out;
+}
+
+.blur-load.loaded > img {
+  opacity: 1;
+}
+
+.blur-load.loaded {
+  filter: blur(0);
 }
 
 .sale__tag {
@@ -801,8 +824,8 @@ a {
 .carousel__main {
   position: absolute;
   width: 100%;
+  height: auto;
   opacity: 0;
-
   z-index: -1;
 }
 
@@ -828,6 +851,7 @@ a {
 }
 .carousel__image {
   width: 100%;
+  height: auto;
   cursor: pointer;
   opacity: 1;
   transition: opacity 0.3s ease-in-out;
@@ -878,7 +902,7 @@ a {
 
 .color__image {
   width: 100%;
-  height: 100%;
+  aspect-ratio: 1;
   object-fit: cover;
   cursor: pointer;
 }
@@ -905,6 +929,15 @@ a {
 }
 .color__icon--filled:hover {
   fill: #fff;
+}
+
+@media (max-width: 700px) {
+  .color__icon:hover {
+    fill: #fff;
+  }
+  .color__icon--filled:hover {
+    fill: var(--color-sale) f;
+  }
 }
 
 .color__icon__container {
@@ -1071,7 +1104,7 @@ a {
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.068);
   background-color: #fff;
   position: fixed;
-  top: 50%;
+  top: 54%;
   left: 50%;
   transform: translate(-50%, -50%);
   z-index: 100;
@@ -1129,6 +1162,29 @@ a {
 }
 .modal__button:hover {
   background-color: var(--color-button-hover);
+}
+
+.modal__cart {
+  position: absolute;
+  top: -8rem;
+  right: 0;
+  background-color: #fff;
+  width: 6.5rem;
+  height: 6.5rem;
+  padding: 1.2rem 1.5rem 1rem 1.5rem;
+  border-radius: 100%;
+}
+
+.modal__cart-number {
+  text-align: center;
+  transform: translateY(-3.65rem);
+  color: #fff;
+  font-weight: 600;
+  font-size: 1.8rem;
+}
+
+.modal__bag {
+  fill: var(--color-button);
 }
 
 .quantity__button {
@@ -1198,6 +1254,20 @@ a {
 
 .modal__wishlist {
   height: 3.8rem;
+}
+
+@media (max-width: 670px) {
+  .modal__product {
+    padding: 4rem 3.5rem 2.5rem 3.5rem;
+  }
+
+  .modal__quantity {
+    margin-top: 2rem;
+  }
+
+  .modal__buttons {
+    margin-top: 3rem;
+  }
 }
 
 .wishlist__container {
@@ -1358,7 +1428,7 @@ a {
 }
 
 .cart__price {
-  font-size: 1.8rem;
+  font-size: 1.65rem;
   font-weight: 400;
   line-height: 1.6rem;
 }

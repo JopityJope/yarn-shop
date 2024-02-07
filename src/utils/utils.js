@@ -6,7 +6,7 @@ export function transformYarnName(inputName) {
   const modifiedWords = words.slice(1);
 
   // Join the modified words with spaces
-  const result = modifiedWords.join(" ").toLowerCase();
+  const result = modifiedWords.join("").toLowerCase();
 
   return result;
 }
