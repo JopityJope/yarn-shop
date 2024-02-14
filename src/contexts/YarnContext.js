@@ -1,6 +1,6 @@
 import React, { createContext, useContext, useState, useEffect } from "react";
 import { db } from "../firebase-config";
-import { collection, getDocs, query, where, orderBy } from "firebase/firestore";
+import { collection, getDocs, query, where } from "firebase/firestore";
 
 const YarnContext = createContext();
 
@@ -53,15 +53,72 @@ export function YarnProvider({ children }) {
       if (saleChecked) {
         baseQuery = query(baseQuery, where("sale", "==", true));
       }
-      if (sortingFilter) {
-        baseQuery = query(baseQuery, orderBy(`${sortingFilter}`, "asc"));
-      }
 
       const data = await getDocs(baseQuery);
-      const yarnsData = data.docs.map((doc) => ({
+      let yarnsData = data.docs.map((doc) => ({
         ...doc.data(),
         id: doc.id,
       }));
+
+      yarnsData = yarnsData.map((yarn) => {
+        if (yarn.sale) {
+          return {
+            ...yarn,
+            adjustedPrice: yarn.price * 0.7,
+          };
+        }
+        return yarn;
+      });
+
+      // Sort the yarnsData based on sortingFilter
+      if (sortingFilter === "price - Low to High") {
+        yarnsData.sort((a, b) => {
+          if (a.sale && b.sale) {
+            return a.adjustedPrice - b.adjustedPrice;
+          } else if (a.sale) {
+            return a.adjustedPrice - b.price;
+          } else if (b.sale) {
+            return a.price - b.adjustedPrice;
+          } else {
+            return a.price - b.price;
+          }
+        });
+      } else if (sortingFilter === "price - High to Low") {
+        yarnsData.sort((a, b) => {
+          if (a.sale && b.sale) {
+            return b.adjustedPrice - a.adjustedPrice;
+          } else if (a.sale) {
+            return b.price - a.adjustedPrice;
+          } else if (b.sale) {
+            return b.adjustedPrice - a.price;
+          } else {
+            return b.price - a.price;
+          }
+        });
+      } else if (sortingFilter === "name") {
+        yarnsData.sort((a, b) => {
+          const nameA = a.name.toUpperCase();
+          const nameB = b.name.toUpperCase();
+          if (nameA < nameB) {
+            return -1;
+          }
+          if (nameA > nameB) {
+            return 1;
+          }
+          return 0;
+        });
+      } else if (sortingFilter === "thickness") {
+        yarnsData.sort((a, b) => {
+          const extractNumeric = (str) => {
+            const matches = str.match(/\d+/);
+            return matches ? parseInt(matches[0]) : 0;
+          };
+          const thicknessA = extractNumeric(a.thickness);
+          const thicknessB = extractNumeric(b.thickness);
+          return thicknessA - thicknessB;
+        });
+      }
+
       setYarns(yarnsData);
     } catch (error) {
       console.error("Error fetching yarns", error);

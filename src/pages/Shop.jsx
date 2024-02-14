@@ -14,50 +14,6 @@ function Shop() {
     setLoaded((prevLoaded) => ({ ...prevLoaded, [yarnId]: true }));
   };
 
-  //Collection ref
-  /* const yarnsCollectionRef = collection(db, "yarns");
-   */
-  /* const setAlacaPartySale = async () => {
-    const data = await getDocs(
-      query(yarnsCollectionRef, where("contents.alpaca", "==", true))
-    );
-    const alpacaYarns = data.docs.map((doc) => ({ ...doc.data(), id: doc.id }));
-
-    alpacaYarns.forEach((yarn) => {
-      const docRef = doc(db, "yarns", yarn.id);
-      updateDoc(docRef, { sale: true });
-    });
-  };
-  setAlacaPartySale(); */
-
-  /* const addYarn = () => {
-    addDoc(yarnsCollectionRef, {
-      colors: 26,
-      contents: { content: "100% Wool", wool: true },
-      length: 110,
-      name: "DROPS Daisy",
-      price: 4.55,
-      thickness: "B / 8 ply / DK",
-      weight: 50,
-    });  .then(() => {
-      addYarnForm.reset();
-    }); 
-  };
-
-  addYarn();
- */
-
-  /* const removeYarn = () => {
-    const docRef = doc(db, "yarns", "6eivUMC6hjrLv1Iz0Zf7");
-
-    deleteDoc(docRef);
-  }; */
-
-  /* const getYarns = async (reference) => {
-    const data = await getDocs(reference);
-    setYarns(data.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
-  }; */
-
   return (
     <div className="shop__container">
       <Helmet title="Shop" />
@@ -139,7 +95,7 @@ function Shop() {
                     )
                   ) : null}
 
-                  {yarn.content && (
+                  {yarn.contents && (
                     <p className="yarn__contents">{yarn.contents.content}</p>
                   )}
 
@@ -148,7 +104,7 @@ function Shop() {
                       {yarn.weight}g = {yarn.length}m
                     </p>
                   )}
-                  {yarn.color && (
+                  {yarn.colorNames && (
                     <p className="yarn__colors">
                       {yarn.colorNames.length} colors
                     </p>

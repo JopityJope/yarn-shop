@@ -57,7 +57,7 @@ function Cart() {
               </div>
 
               <Link
-                to={"/signup"}
+                to={"/checkout"}
                 className="cart__button cart__button--chekcout"
               >
                 Continue to checkout

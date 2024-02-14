@@ -15,42 +15,46 @@ import ForgottenPassword from "../pages/ForgottenPassword";
 import UpdateFirstName from "../pages/UpdateFirstName";
 import UpdateLastName from "../pages/UpdateLastName";
 import DeleteAccount from "../pages/DeleteAccount";
+import ScrollToTop from "../components/Layout/ScrollToTop";
 
 function Routers() {
   const { currentUser } = useAuth();
   return (
-    <Routes>
-      <Route path="/" element={<Shop />} />
-      <Route path="/product-page/:yarnId" element={<ProductPage />} />
-      <Route path="/cart" element={<Cart />} />
-      <Route path="/checkout" element={<Checkout />} />
-      <Route
-        path="/login"
-        element={!currentUser ? <LogIn /> : <Navigate to="/profile" />}
-      />
+    <>
+      <ScrollToTop />
+      <Routes>
+        <Route path="/" element={<Shop />} />
+        <Route path="/product-page/:yarnId" element={<ProductPage />} />
+        <Route path="/cart" element={<Cart />} />
+        <Route path="/checkout" element={<Checkout />} />
+        <Route
+          path="/login"
+          element={!currentUser ? <LogIn /> : <Navigate to="/profile" />}
+        />
 
-      <Route
-        path="/signup"
-        element={!currentUser ? <SignUp /> : <Navigate to="/profile" />}
-      />
+        <Route
+          path="/signup"
+          element={!currentUser ? <SignUp /> : <Navigate to="/profile" />}
+        />
 
-      <Route path="/wishlist" element={<WishList />} />
-      <Route
-        path="/profile"
-        element={currentUser ? <Profile /> : <Navigate to="/login" />}
-      />
-      <Route path="/profile/change-password" element={<UpdatePassword />} />
-      <Route path="/profile/update-email" element={<UpdateEmail />} />
-      <Route path="/profile/update-firstname" element={<UpdateFirstName />} />
-      <Route path="/profile/update-lastname" element={<UpdateLastName />} />
-      <Route path="/profile/delete-acount" element={<DeleteAccount />} />
-      <Route
-        path="/forgotten-password"
-        element={
-          !currentUser ? <ForgottenPassword /> : <Navigate to="/profile" />
-        }
-      />
-    </Routes>
+        <Route path="/wishlist" element={<WishList />} />
+        <Route
+          path="/profile"
+          element={currentUser ? <Profile /> : <Navigate to="/login" />}
+        />
+        <Route path="/profile/change-password" element={<UpdatePassword />} />
+        <Route path="/profile/update-email" element={<UpdateEmail />} />
+        <Route path="/profile/update-firstname" element={<UpdateFirstName />} />
+        <Route path="/profile/update-lastname" element={<UpdateLastName />} />
+        <Route path="/profile/delete-acount" element={<DeleteAccount />} />
+        <Route
+          path="/forgotten-password"
+          element={
+            !currentUser ? <ForgottenPassword /> : <Navigate to="/profile" />
+          }
+        />
+      </Routes>
+    </>
   );
 }
 

@@ -34,67 +34,6 @@ export function AuthProvider({ children }) {
   const [currentUser, setCurrentUser] = useState();
   const [loading, setLoading] = useState(true);
 
-  /*  useEffect(() => {
-    const unsubscribeAuthStateChange = auth.onAuthStateChanged(async (user) => {
-      setCurrentUser(user);
-      let fetchedCart = [];
-      let fetchedWishlist = [];
-
-      if (user) {
-        console.log("user logged in");
-        try {
-          const userData = await getData();
-          if (userData) {
-            const { cart, wishlist } = userData;
-            fetchedCart = cart;
-            fetchedWishlist = wishlist;
-            console.log(cart);
-            updateCart(fetchedCart);
-            updateWishlist(fetchedWishlist);
-          }
-        } catch (error) {
-          console.log(error);
-        }
-      }
-    });
-
-    return () => unsubscribeAuthStateChange();
-  }, []); */
-
-  /*  useEffect(() => {
-    const unsubscribeAuthStateChange = auth.onAuthStateChanged(async (user) => {
-      if (user) {
-        console.log("logged in");
-      } else {
-        console.log("logged out");
-      }
-    });
-
-    return () => unsubscribeAuthStateChange();
-  }, []);
- */
-  /*   useEffect(() => {
-    const unsubscribeAuthStateChange = auth.onAuthStateChanged((user) => {
-      setCurrentUser(user);
-
-      if (user) {
-        const fetchUserData = async () => {
-          try {
-            const { cart } = await getData();
-            console.log(cart);
-          } catch (error) {
-            console.log(error);
-          }
-        };
-        fetchUserData();
-      } else {
-        localStorage.removeItem("cart");
-      }
-    });
-
-    return () => unsubscribeAuthStateChange();
-  }, []); */
-
   function signup(email, password) {
     return createUserWithEmailAndPassword(auth, email, password);
   }

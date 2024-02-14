@@ -50,7 +50,12 @@ function Filter() {
     },
   ];
 
-  const sorting = [{ name: "name" }, { name: "price" }, { name: "thickness" }];
+  const sorting = [
+    { name: "name" },
+    { name: "price - Low to High" },
+    { name: "price - High to Low" },
+    { name: "thickness" },
+  ];
 
   const [isFilterMenuActive, setIsFilterMenuActive] = useState(false);
   const [isContentActive, setIsContentActive] = useState(false);

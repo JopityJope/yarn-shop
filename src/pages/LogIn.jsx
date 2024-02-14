@@ -19,6 +19,7 @@ function LogIn() {
       setError("");
       setLoading(true);
       await login(email, password);
+
       navigate("/profile");
     } catch (error) {
       if (error.code === "auth/invalid-email") {
@@ -49,6 +50,7 @@ function LogIn() {
               required
               value={email}
               onChange={(e) => setEmail(e.target.value)}
+              autoComplete="off"
             />
             <label className="login__label" htmlFor="mail">
               E-mail
@@ -61,6 +63,7 @@ function LogIn() {
               type="password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
+              autoComplete="off"
             />
             <label className="login__label" htmlFor="passwprd">
               Password

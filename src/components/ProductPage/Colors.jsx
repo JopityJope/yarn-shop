@@ -17,7 +17,6 @@ function Colors({ selectedYarn }) {
   const [selectedColor, setSelectedColor] = useState("");
   const { wishlistItems, addToWishlist, removeFromWishlist } = useWishlist();
   const { addToCart, cartItems } = useCart();
-
   const totalQuantity = cartItems.reduce(
     (total, cartItem) => total + cartItem.quantity,
     0

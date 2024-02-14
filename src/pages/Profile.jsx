@@ -7,6 +7,7 @@ function Profile() {
   const { currentUser, logout, getData } = useAuth();
   const [error, setError] = useState("");
   const [userData, setUserData] = useState({});
+  const [isProfile, setIsProfile] = useState(true);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -21,25 +22,6 @@ function Profile() {
 
     fetchUserData();
   }, [getData]);
-
-  /*   const handleDelete = async (e) => {
-    e.preventDefault();
-    setError("");
-
-    try {
-      const userData = await getData();
-
-      if (userData) {
-        const { id } = userData;
-        await deleteData(id);
-      }
-      await deleteAccount();
-      navigate("/login");
-    } catch (error) {
-      console.error("Failed to delete account:", error.message);
-      setError("Failed to delete account");
-    }
-  }; */
 
   const handleLogout = async (e) => {
     e.preventDefault();
@@ -58,48 +40,62 @@ function Profile() {
 
       <div className="profile__container">
         <ul className="filter__container">
-          <li className="filter__item">Profile</li>
-          <li className="filter__item">My orders</li>
+          <li
+            className={`options__item ${isProfile ? "active" : ""}`}
+            onClick={() => setIsProfile(true)}
+          >
+            Profile
+          </li>
+          <li
+            className={`options__item ${!isProfile ? "active" : ""}`}
+            onClick={() => setIsProfile(false)}
+          >
+            My orders
+          </li>
         </ul>
         <p style={{ marginTop: "1rem" }} className="message message--error">
           {error}
         </p>
 
-        <Link to="update-firstname" className="update__link">
-          <div>
-            <p className="update__text--uppercase">First name</p>
-            <p className="update__text">{userData.firstName}</p>
-          </div>
-        </Link>
+        {isProfile ? (
+          <>
+            <Link to="update-firstname" className="update__link">
+              <div>
+                <p className="update__text--uppercase">First name</p>
+                <p className="update__text">{userData.firstName}</p>
+              </div>
+            </Link>
 
-        <Link to="update-lastname" className="update__link">
-          <div>
-            <p className="update__text--uppercase">Last name</p>
-            <p className="update__text">{userData.lastName}</p>
-          </div>
-        </Link>
-        <Link to="update-email" className="update__link">
-          <div>
-            <p className="update__text--uppercase">Email</p>
-            <p className="update__text">{currentUser.email}</p>
-          </div>
-        </Link>
-        <Link to="change-password" className="update__link">
-          <div>
-            <p className="update__text--uppercase">Password</p>
-            <p className="update__text">●●●●●●</p>
-          </div>
-        </Link>
+            <Link to="update-lastname" className="update__link">
+              <div>
+                <p className="update__text--uppercase">Last name</p>
+                <p className="update__text">{userData.lastName}</p>
+              </div>
+            </Link>
+            <Link to="update-email" className="update__link">
+              <div>
+                <p className="update__text--uppercase">Email</p>
+                <p className="update__text">{currentUser.email}</p>
+              </div>
+            </Link>
+            <Link to="change-password" className="update__link">
+              <div>
+                <p className="update__text--uppercase">Password</p>
+                <p className="update__text">●●●●●●</p>
+              </div>
+            </Link>
 
-        <button className="login__button" onClick={handleLogout}>
-          Log out
-        </button>
+            <button className="login__button" onClick={handleLogout}>
+              Log out
+            </button>
 
-        <Link to="delete-acount" className="password__link">
-          <div>
-            <p className="update__text--uppercase"> Delete your account</p>
-          </div>
-        </Link>
+            <Link to="delete-acount" className="password__link">
+              <div>
+                <p className="update__text--uppercase"> Delete your account</p>
+              </div>
+            </Link>
+          </>
+        ) : null}
       </div>
     </>
   );

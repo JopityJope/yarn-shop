@@ -22,7 +22,7 @@ function SignUp() {
       setError("");
       setLoading(true);
       await signup(email, password);
-      navigate("/");
+      navigate("/profile");
       await addData({
         firstName: firstName,
         lastName: lastName,
@@ -57,6 +57,7 @@ function SignUp() {
               required
               value={email}
               onChange={(e) => setEmail(e.target.value)}
+              autoComplete="off"
             />
             <label className="login__label" htmlFor="email">
               E-mail
@@ -69,6 +70,7 @@ function SignUp() {
               type="password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
+              autoComplete="off"
             />
             <label className="login__label" htmlFor="password">
               Password
@@ -83,6 +85,7 @@ function SignUp() {
               required
               value={firstName}
               onChange={(e) => setFirstName(e.target.value)}
+              autoComplete="off"
             />
             <label className="login__label" htmlFor="firstName">
               First name
@@ -97,6 +100,7 @@ function SignUp() {
               required
               value={lastName}
               onChange={(e) => setLastName(e.target.value)}
+              autoComplete="off"
             />
             <label className="login__label" htmlFor="firstName">
               Last name
