@@ -14,7 +14,7 @@ function Carousel({ selectedYarn }) {
           {Array.from({ length: 5 }).map((_, i) => (
             <img
               src={`/${transformYarnName(selectedYarn.name)}/yarn_${i}.jpg`}
-              alt="yarn"
+              alt=""
               className={`carousel__main ${
                 i === currentIndex ? "active" : ""
               } `}

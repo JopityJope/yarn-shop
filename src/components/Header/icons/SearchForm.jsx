@@ -6,6 +6,9 @@ function SearchForm({ isActiveMobile, onClose }) {
   const [isSmallScreen, setIsSmallScreen] = useState(
     () => window.innerWidth <= 990
   );
+  const [searchQuery, setSearchQuery] = useState("");
+
+  const handleInputChange = () => {};
 
   useEffect(() => {
     const handleResize = () => {
@@ -22,6 +25,7 @@ function SearchForm({ isActiveMobile, onClose }) {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    console.log();
   };
 
   const handleCloseClickMobile = () => {
@@ -42,6 +46,9 @@ function SearchForm({ isActiveMobile, onClose }) {
         className="search__input--mobile"
         type="text"
         placeholder="i.e. alpaca"
+        value={searchQuery}
+        onChange={handleInputChange}
+        autoComplete="off"
       />
 
       <button className="close__btn--mobile" onClick={handleCloseClickMobile}>
@@ -75,6 +82,9 @@ function SearchForm({ isActiveMobile, onClose }) {
         className="search__input"
         type="text"
         placeholder="i.e. alpaca"
+        value={searchQuery}
+        onChange={handleInputChange}
+        autoComplete="off"
       />
 
       <button className="search__btn" onClick={handleClick}>

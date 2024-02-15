@@ -49,9 +49,7 @@ function Header() {
           isActiveMobile={isActiveMobile}
           onClose={handleCloseMobileSearch}
         />
-      ) : (
-        ""
-      )}
+      ) : null}
 
       <div className="header-container">
         <NavLink to="/">

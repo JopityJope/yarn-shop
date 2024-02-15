@@ -5,10 +5,12 @@ import { useCart } from "../contexts/CartContext";
 import { calculateSale, transformYarnName } from "../utils/utils";
 import { Link } from "react-router-dom";
 import Close from "../components/Header/icons/Close";
+import { useAuth } from "../contexts/AuthContext";
 
 function WishList() {
   const { wishlistItems, removeFromWishlist } = useWishlist();
   const { addToCart } = useCart();
+  const { currentUser } = useAuth();
   const [selectedColor, setSelectedColor] = useState("");
   useEffect(() => {
     console.log(wishlistItems);
@@ -58,14 +60,16 @@ function WishList() {
                 className="wishlist__item"
                 key={`${wishlistItem.item.id}${wishlistItem.color}`}
               >
-                <Link to={`/product-page/${wishlistItem.item.id}`}>
+                <Link
+                  className="wishlist__image"
+                  to={`/product-page/${wishlistItem.item.id}`}
+                >
                   <img
                     src={`/${transformYarnName(
                       wishlistItem.item.name
                     )}/colors/${wishlistItem.color + 1}.jpg`}
                     alt=""
                     loading="lazy"
-                    className="wishlist__image"
                   />
                 </Link>
 
@@ -118,7 +122,7 @@ function WishList() {
           </>
         )}
       </div>
-      {wishlistItems && wishlistItems.length > 0 ? (
+      {!currentUser ? (
         <div className="wishlist__container">
           <p className="no-yarns__message">
             Sign up to sync your Saved Items across all your devices.

@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import Helmet from "../components/Helmet/Helmet";
 import { useAuth } from "../contexts/AuthContext";
 import { useNavigate, Link } from "react-router-dom";
+import { transformYarnName } from "../utils/utils";
 
 function Profile() {
   const { currentUser, logout, getData } = useAuth();
@@ -13,8 +14,10 @@ function Profile() {
   useEffect(() => {
     const fetchUserData = async () => {
       try {
-        const { firstName, lastName } = await getData();
-        setUserData({ firstName, lastName });
+        const { firstName, lastName, deliveryAddress, orders } =
+          await getData();
+
+        setUserData({ firstName, lastName, deliveryAddress, orders });
       } catch (error) {
         setError("Failed to fetch user data");
       }
@@ -22,6 +25,14 @@ function Profile() {
 
     fetchUserData();
   }, [getData]);
+
+  let orders = [];
+  if (userData && userData.orders) {
+    orders = Object.keys(userData.orders).map(
+      (timestamp) => new Date(timestamp)
+    );
+    orders.sort((a, b) => b - a);
+  }
 
   const handleLogout = async (e) => {
     e.preventDefault();
@@ -95,7 +106,48 @@ function Profile() {
               </div>
             </Link>
           </>
-        ) : null}
+        ) : (
+          <>
+            {orders.length > 0 ? (
+              orders.map((timestamp) => (
+                <div key={timestamp.toISOString()} className="order">
+                  <p className="update__text">
+                    Order number: {timestamp.toISOString()}
+                  </p>
+                  <ul className="checkout__items">
+                    {userData.orders[timestamp.toISOString()].map((item) => (
+                      <li
+                        className={`checkout__item`}
+                        key={`${item.item.id}${item.color}`}
+                      >
+                        <Link to={`/product-page/${item.item.id}`}>
+                          <img
+                            src={`/${transformYarnName(
+                              item.item.name
+                            )}/colors/${item.color + 1}.jpg`}
+                            alt=""
+                            loading="lazy"
+                            className="checkout__image"
+                          />
+                        </Link>
+                      </li>
+                    ))}
+                  </ul>
+                  <p className="update__text">€</p>
+                </div>
+              ))
+            ) : (
+              <>
+                <p className="update__text">
+                  No orders yet... &nbsp;
+                  <Link className="update__text--uppercase" to={"/"}>
+                    Browse shop
+                  </Link>{" "}
+                </p>
+              </>
+            )}
+          </>
+        )}
       </div>
     </>
   );

@@ -16,6 +16,7 @@ import UpdateFirstName from "../pages/UpdateFirstName";
 import UpdateLastName from "../pages/UpdateLastName";
 import DeleteAccount from "../pages/DeleteAccount";
 import ScrollToTop from "../components/Layout/ScrollToTop";
+import OrderSuccesful from "../pages/OrderSuccesful";
 
 function Routers() {
   const { currentUser } = useAuth();
@@ -53,6 +54,7 @@ function Routers() {
             !currentUser ? <ForgottenPassword /> : <Navigate to="/profile" />
           }
         />
+        <Route path="/order" element={<OrderSuccesful />} />
       </Routes>
     </>
   );

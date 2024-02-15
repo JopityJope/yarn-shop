@@ -1,8 +1,8 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect } from "react";
 import Helmet from "../components/Helmet/Helmet";
 import { useCart } from "../contexts/CartContext";
 import { useWishlist } from "../contexts/WishlistContext";
-
+import { useAuth } from "../contexts/AuthContext";
 import { Link } from "react-router-dom";
 import { transformYarnName, calculateSale } from "../utils/utils";
 import Close from "../components/Header/icons/Close";
@@ -11,6 +11,7 @@ import HeartFilled from "../components/Icons/HeartFilled";
 function Cart() {
   const { cartItems, removeFromCart, increaseQuantity, decreaseQuantity } =
     useCart();
+  const { currentUser } = useAuth();
   const { addToWishlist } = useWishlist();
   const [totalPrice, setTotalPrice] = useState("");
 
@@ -84,14 +85,16 @@ function Cart() {
                   className={`cart__item`}
                   key={`${cartItem.item.id}${cartItem.color}`}
                 >
-                  <Link to={`/product-page/${cartItem.item.id}`}>
+                  <Link
+                    className="cart__image"
+                    to={`/product-page/${cartItem.item.id}`}
+                  >
                     <img
                       src={`/${transformYarnName(cartItem.item.name)}/colors/${
                         cartItem.color + 1
                       }.jpg`}
                       alt=""
                       loading="lazy"
-                      className="cart__image"
                     />
                   </Link>
 
@@ -184,7 +187,7 @@ function Cart() {
             </>
           )}
         </div>
-        {cartItems && cartItems.length > 0 ? (
+        {!currentUser ? (
           <div className="cart__container">
             <p className="no-yarns__message">
               Sign up to sync your Cart across all your devices.

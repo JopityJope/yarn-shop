@@ -90,6 +90,18 @@ export function AuthProvider({ children }) {
     await updateUserField("cart", cart);
   }
 
+  async function updateDelivery(deliveryAddress) {
+    await updateUserField("deliveryAddress", deliveryAddress);
+  }
+
+  async function updatePayment(payment) {
+    await updateUserField("payment", payment);
+  }
+
+  async function updateOrders(order) {
+    await updateUserField("orders", order);
+  }
+
   async function getData() {
     try {
       if (currentUser) {
@@ -181,6 +193,9 @@ export function AuthProvider({ children }) {
     usersCollectionRef,
     updateWishlist,
     updateCart,
+    updateDelivery,
+    updatePayment,
+    updateOrders,
   };
   return (
     <AuthContext.Provider value={value}>
