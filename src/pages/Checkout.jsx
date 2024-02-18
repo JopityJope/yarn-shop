@@ -26,6 +26,17 @@ function Checkout() {
   const [country, setCountry] = useState("");
   const [error, setError] = useState("");
 
+  const [editDelivery, setEditDelivery] = useState(false);
+  const [editPayment, setEditPayment] = useState(false);
+
+  const toggleEditDelivery = () => {
+    setEditDelivery(!editDelivery);
+  };
+
+  const toggleEditPayment = () => {
+    setEditPayment(!editPayment);
+  };
+
   useEffect(() => {
     const fetchUserData = async () => {
       try {
@@ -40,7 +51,6 @@ function Checkout() {
           payment,
         });
 
-        console.log(payment);
         setFirstName(deliveryAddress?.firstName || "");
         setLastName(deliveryAddress?.lastName || "");
         setPhone(deliveryAddress?.phone || "");
@@ -134,7 +144,6 @@ function Checkout() {
       postcode,
       country,
     };
-    console.log(deliveryData);
 
     updateDelivery(deliveryData);
     if (isChecked) {
@@ -144,16 +153,20 @@ function Checkout() {
     }
     const date = new Date();
     const timestamp = date.toISOString();
-    const orderData = { ...cartItems, totalPrice, timestamp };
-    const userData = await getData();
-    if (userData && userData.orders) {
-      const combinedOrders = [userData.orders, orderData];
-      updateOrders(combinedOrders);
-    } else updateOrders(orderData);
-
-    await deleteAllFromCart();
-
-    navigate("/order");
+    const orderData = { cartItems, totalPrice, timestamp };
+    try {
+      const userData = await getData();
+      if (userData && userData.orders) {
+        const combinedOrders = [...userData.orders, orderData];
+        await updateOrders(combinedOrders);
+      } else {
+        await updateOrders([orderData]);
+      }
+      await deleteAllFromCart();
+      navigate("/order");
+    } catch (error) {
+      console.error("Error processing order:", error.message);
+    }
   };
 
   const subtotal = cartItems
@@ -199,7 +212,7 @@ function Checkout() {
               </li>
             ))}
           </ul>
-          {!userData.deliveryAddress ? (
+          {!userData.deliveryAddress || editDelivery ? (
             <div className="checkout__section">
               <p className="checkout__title">Delivery address</p>
 
@@ -312,7 +325,9 @@ function Checkout() {
             <div className="checkout__section">
               <div className="checkout__title__container">
                 <p className="checkout__title">Delivery address</p>
-                <p className="edit__button">Edit</p>
+                <p className="edit__button" onClick={toggleEditDelivery}>
+                  Edit
+                </p>
               </div>
 
               <div className="checkout__text__container">
@@ -362,7 +377,7 @@ function Checkout() {
           </div>
           {/* PAYEMENT */}
 
-          {!userData.payment ? (
+          {!userData.payment || editPayment ? (
             <div className="checkout__section">
               <p className="checkout__title">Payment</p>
               <div className="input__wrapper">
@@ -458,7 +473,9 @@ function Checkout() {
             <div className="checkout__section">
               <div className="checkout__title__container">
                 <p className="checkout__title">Payment</p>
-                <p className="edit__button">Edit</p>
+                <p className="edit__button" onClick={toggleEditPayment}>
+                  Edit
+                </p>
               </div>
 
               <div className="checkout__text__container">

@@ -56,6 +56,11 @@ export const WishlistProvider = ({ children }) => {
     }
   };
 
+  const deleteAllFromWishlist = () => {
+    setWishlistItems([]);
+    localStorage.removeItem("cart");
+  };
+
   const removeFromWishlist = (item, color) => {
     const updatedWishlist = wishlistItems.filter(
       (wishlistItem) =>
@@ -75,7 +80,12 @@ export const WishlistProvider = ({ children }) => {
 
   return (
     <WishlistContext.Provider
-      value={{ wishlistItems, addToWishlist, removeFromWishlist }}
+      value={{
+        wishlistItems,
+        addToWishlist,
+        removeFromWishlist,
+        deleteAllFromWishlist,
+      }}
     >
       {children}
     </WishlistContext.Provider>

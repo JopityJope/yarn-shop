@@ -14,13 +14,20 @@ function OrderSuccesful() {
       try {
         const userData = await getData();
         setOrders(userData.orders);
+        console.log(userData.orders);
+        if (userData && userData.orders) {
+          let mostRecentOrder = userData.orders[0];
+          for (let i = 1; i < userData.orders.length; i++) {
+            const currentOrder = userData.orders[i];
 
-        userData.orders.sort(
-          (a, b) => new Date(b.timestamp) - new Date(a.timestamp)
-        );
+            if (currentOrder.timestamp > mostRecentOrder.timestamp) {
+              mostRecentOrder = currentOrder;
+            }
+            setMostRecentOrder(mostRecentOrder);
+          }
 
-        if (userData.orders.length > 0) {
-          setMostRecentOrder(userData.orders[0]);
+          console.log("Most recent order:", mostRecentOrder);
+          console.log(mostRecentOrder.cartItems);
         }
       } catch (error) {
         console.error("Error fetching orders:", error);
@@ -30,18 +37,6 @@ function OrderSuccesful() {
     fetchOrders();
   }, []);
 
-  useEffect(() => {
-    if (mostRecentOrder && Object.keys(mostRecentOrder).length > 0) {
-      const filteredOrder = {};
-      Object.keys(mostRecentOrder).forEach((key) => {
-        if (key !== "timestamp" && key !== "totalPrice") {
-          filteredOrder[key] = mostRecentOrder[key];
-        }
-      });
-      console.log(filteredOrder);
-    }
-  }, [mostRecentOrder]);
-
   return (
     <>
       <Helmet title="Order" />
@@ -50,13 +45,13 @@ function OrderSuccesful() {
           <h3 className="heading-secondary">Order sucessful</h3>
 
           <p className="checkout__title">Your items</p>
-          {/*  {mostRecentOrder && (
-            <ul className="checkout__items">
-              {Object.values(mostRecentOrder).map((item, index) => (
+          <ul className="checkout__items">
+            {mostRecentOrder.cartItems &&
+              mostRecentOrder.cartItems.map((item, index) => (
                 <li className={`checkout__item`} key={index}>
-                  <Link to={`/product-page/${item.id}`}>
+                  <Link to={`/product-page/${item.item.id}`}>
                     <img
-                      src={`/${transformYarnName(item.name)}/colors/${
+                      src={`/${transformYarnName(item.item.name)}/colors/${
                         item.color + 1
                       }.jpg`}
                       alt=""
@@ -66,15 +61,14 @@ function OrderSuccesful() {
                   </Link>
                 </li>
               ))}
-            </ul>
-          )} */}
+          </ul>
 
-          <div className="total">
-            <p>TOTAL TO PAY:&nbsp;</p>
-            <p className="total">
-              {/*  {Number(totalPrice) + Number(deliveryPrice)} */} €
-            </p>
-          </div>
+          {mostRecentOrder.totalPrice && (
+            <div className="total">
+              <p className="checkout__title">TOTAL:&nbsp;</p>
+              <p className="checkout__title">{mostRecentOrder.totalPrice} €</p>
+            </div>
+          )}
         </div>
       </div>
     </>

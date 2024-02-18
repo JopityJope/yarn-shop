@@ -71,10 +71,9 @@ function Cart() {
           {cartItems.length === 0 ? (
             <>
               <p className="no-yarns__message">
-                Your cart is empty! Sign up to save or access already saved
-                items in your cart.
-                <Link to={"/signup"} className="clear-filter__button">
-                  Sign up
+                Your cart is empty!
+                <Link to={"/"} className="clear-filter__button">
+                  Browse now
                 </Link>
               </p>
             </>

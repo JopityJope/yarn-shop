@@ -871,6 +871,10 @@ a {
   border: 1px solid var(--color-text);
 }
 
+.noimage {
+  display: none;
+}
+
 /* Colors */
 
 .colors__container {
@@ -1334,6 +1338,7 @@ a.update__text--uppercase:hover {
   overflow: hidden;
   max-width: 100%;
   padding-top: 100%;
+  animation: fadeInAnimation 1s ease-in-out;
 }
 
 .wishlist__image img {
@@ -1409,12 +1414,12 @@ a.update__text--uppercase:hover {
   height: fit-content;
   top: 1rem;
   right: 1rem;
-
   border: none;
   cursor: pointer;
   display: flex;
   justify-content: end;
   margin-left: auto;
+  animation: fadeInAnimation 1s ease-in-out;
 }
 
 .wishlist__close-btn svg {
@@ -1527,6 +1532,7 @@ a.update__text--uppercase:hover {
   overflow: hidden;
   max-width: 100%;
   padding-top: 100%;
+  animation: fadeInAnimation 1s ease-in-out;
 }
 
 .cart__image img {
@@ -1664,12 +1670,14 @@ a.update__text--uppercase:hover {
   gap: 1rem;
   max-width: 100%;
   flex-wrap: wrap;
+  line-height: 1;
 }
 .checkout__item {
   list-style: none;
 }
 .checkout__image {
   width: 8rem;
+  animation: fadeInAnimation 1s ease-in-out;
 }
 
 input[type="radio"] {
@@ -1916,4 +1924,27 @@ input[type="radio"]:checked {
   display: flex;
   justify-content: space-between;
   align-items: center;
+}
+
+.order {
+  margin-bottom: 3rem;
+}
+
+.myorders__text {
+  margin: 0;
+  padding: 0;
+  font-size: 1.6rem;
+  line-height: normal;
+}
+
+.myorders__items {
+  display: flex;
+  gap: 1rem;
+  max-width: 100%;
+  flex-wrap: wrap;
+  margin: 1rem 0;
+}
+.myorders__item {
+  list-style: none;
+  line-height: 0;
 }

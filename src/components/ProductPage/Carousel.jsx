@@ -3,8 +3,14 @@ import { transformYarnName } from "../../utils/utils";
 
 function Carousel({ selectedYarn }) {
   const [currentIndex, setCurrentIndex] = useState(0);
+  const [failedImageIndex, setFailedImageIndex] = useState(null);
+
   const handleImageClick = (i) => {
     setCurrentIndex(i);
+  };
+
+  const handleImageError = (i) => {
+    setFailedImageIndex(i);
   };
 
   return (
@@ -27,13 +33,14 @@ function Carousel({ selectedYarn }) {
 
       <div className="carousel__indicators">
         {Array.from({ length: 5 }).map((_, i) => (
-          <div className="carousel__item" key={i}>
+          <div className={`carousel__item`} key={i}>
             <img
               className={`carousel__image ${
                 i === currentIndex ? "active" : ""
-              }`}
+              } ${i === failedImageIndex ? "noimage" : ""}`}
               src={`/${transformYarnName(selectedYarn.name)}/yarn_${i}.jpg`}
               alt=""
+              onError={() => handleImageError(i)}
               onClick={() => handleImageClick(i)}
               loading="lazy"
             />
