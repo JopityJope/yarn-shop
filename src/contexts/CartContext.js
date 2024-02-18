@@ -74,6 +74,11 @@ export const CartProvider = ({ children }) => {
     }
   };
 
+  const deleteAllFromCart = () => {
+    setCartItems([]);
+    localStorage.removeItem("cart");
+  };
+
   useEffect(() => {
     if (currentUser) {
       fetchUserData();
@@ -89,16 +94,6 @@ export const CartProvider = ({ children }) => {
     updateCart(cartItems);
   }, [cartItems]);
 
-  /*   useEffect(() => {
-    // Handle logout separately
-    if (!currentUser) {
-      // Do something when the user logs out
-      // For example, clear local storage or reset state
-      localStorage.removeItem("wishlist");
-      setCartItems([]);
-    }
-  }, [currentUser]); */
-
   return (
     <CartContext.Provider
       value={{
@@ -108,6 +103,7 @@ export const CartProvider = ({ children }) => {
         updateCart,
         decreaseQuantity,
         increaseQuantity,
+        deleteAllFromCart,
       }}
     >
       {children}

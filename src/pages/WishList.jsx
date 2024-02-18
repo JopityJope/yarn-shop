@@ -122,7 +122,7 @@ function WishList() {
           </>
         )}
       </div>
-      {!currentUser ? (
+      {!currentUser && wishlistItems.length > 0 ? (
         <div className="wishlist__container">
           <p className="no-yarns__message">
             Sign up to sync your Saved Items across all your devices.

@@ -187,7 +187,7 @@ function Cart() {
             </>
           )}
         </div>
-        {!currentUser ? (
+        {!currentUser && cartItems.length > 0 ? (
           <div className="cart__container">
             <p className="no-yarns__message">
               Sign up to sync your Cart across all your devices.

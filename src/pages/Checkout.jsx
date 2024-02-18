@@ -13,7 +13,7 @@ import LogInSignUp from "../components/Checkout/LogInSignUp";
 function Checkout() {
   const { currentUser, getData, updateDelivery, updatePayment, updateOrders } =
     useAuth();
-  const { cartItems } = useCart();
+  const { cartItems, deleteAllFromCart } = useCart();
   const navigate = useNavigate();
 
   const [userData, setUserData] = useState({});
@@ -144,25 +144,14 @@ function Checkout() {
     }
     const date = new Date();
     const timestamp = date.toISOString();
-    function generateOrderNumber() {
-      const hours = String(date.getHours()).padStart(2, "0");
-      const minutes = String(date.getMinutes()).padStart(2, "0");
-      const seconds = String(date.getSeconds()).padStart(2, "0");
-      const randomString = Math.random().toString(36).substring(2, 8);
-      return `${hours}${minutes}${seconds}_${randomString}`;
-    }
-
-    const orderNumber = generateOrderNumber();
-
-    const orderData = {
-      [orderNumber]: [...cartItems, totalPrice, timestamp],
-    };
-
+    const orderData = { ...cartItems, totalPrice, timestamp };
     const userData = await getData();
     if (userData && userData.orders) {
       const combinedOrders = [userData.orders, orderData];
       updateOrders(combinedOrders);
     } else updateOrders(orderData);
+
+    await deleteAllFromCart();
 
     navigate("/order");
   };

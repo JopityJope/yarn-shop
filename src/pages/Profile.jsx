@@ -1,11 +1,13 @@
 import React, { useState, useEffect } from "react";
 import Helmet from "../components/Helmet/Helmet";
 import { useAuth } from "../contexts/AuthContext";
+import { useCart } from "../contexts/CartContext";
 import { useNavigate, Link } from "react-router-dom";
 import { transformYarnName } from "../utils/utils";
 
 function Profile() {
   const { currentUser, logout, getData } = useAuth();
+  const { deleteAllFromCart } = useCart();
   const [error, setError] = useState("");
   const [userData, setUserData] = useState({});
   const [isProfile, setIsProfile] = useState(true);
@@ -40,6 +42,7 @@ function Profile() {
 
     try {
       await logout();
+      await deleteAllFromCart();
       navigate("/login");
     } catch {
       setError("Failed to log out");
