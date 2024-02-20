@@ -55,6 +55,8 @@ body {
 
 @import url("https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&display=swap");
 
+@import url("https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap");
+
 body {
   font-family: "Lato", sans-serif;
   font-weight: 400;
@@ -169,8 +171,18 @@ a {
   display: inline-block;
   border-bottom: 1px solid var(--color-text);
   width: 33rem;
-  z-index: 20;
-  cursor: pointer;
+}
+
+.submit___btn {
+  z-index: 200;
+  display: block;
+  background-color: transparent;
+  border: none;
+  padding: 0 1rem;
+  transform: translateX(1rem);
+  margin: none;
+  align-self: flex-start;
+  background-color: var(--color-primary);
 }
 
 .search__input {
@@ -241,11 +253,9 @@ a {
 }
 
 .search__input--mobile {
-  width: 70%;
-  max-width: 50rem;
+  width: 100%;
   height: 100%;
   border: none;
-  margin-right: auto;
 }
 
 .search__input--mobile:focus {
@@ -1458,6 +1468,13 @@ a.update__text--uppercase:hover {
   gap: 2rem;
 }
 
+.search__container {
+  display: flex;
+  max-width: 120rem;
+  margin: 2rem auto;
+  flex-direction: column;
+}
+
 .cart__quantity {
   display: flex;
   align-items: center;
@@ -1947,4 +1964,67 @@ input[type="radio"]:checked {
 .myorders__item {
   list-style: none;
   line-height: 0;
+}
+
+.notfound__container {
+  display: flex;
+  max-width: 120rem;
+  width: 100%;
+  margin: auto;
+  justify-content: center;
+  align-items: center;
+  padding-top: 5rem;
+}
+
+.notfound__text {
+  display: flex;
+  flex-direction: column;
+  width: 50%;
+  padding-left: 2rem;
+}
+
+.notfound__image {
+  width: 45%;
+}
+
+@media (max-width: 990px) {
+  .notfound__container {
+    flex-direction: column;
+  }
+
+  .notfound__text {
+    padding-top: 3rem;
+    padding-left: 0;
+    width: 55%;
+  }
+  .notfound__image {
+    width: 55%;
+  }
+}
+
+@media (max-width: 750px) {
+  .notfound__image {
+    width: 65%;
+  }
+  .notfound__text {
+    width: 65%;
+  }
+}
+
+@media (max-width: 650px) {
+  .notfound__image {
+    width: 75%;
+  }
+  .notfound__text {
+    width: 75%;
+  }
+}
+
+@media (max-width: 450px) {
+  .notfound__image {
+    width: 85%;
+  }
+  .notfound__text {
+    width: 85%;
+  }
 }

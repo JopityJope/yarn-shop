@@ -12,9 +12,7 @@ function WishList() {
   const { addToCart } = useCart();
   const { currentUser } = useAuth();
   const [selectedColor, setSelectedColor] = useState("");
-  useEffect(() => {
-    console.log(wishlistItems);
-  }, [wishlistItems]);
+  useEffect(() => {}, [wishlistItems]);
 
   const selectColor = (i) => {
     setSelectedColor(wishlistItems[i]);

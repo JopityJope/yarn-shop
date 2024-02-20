@@ -17,6 +17,8 @@ import UpdateLastName from "../pages/UpdateLastName";
 import DeleteAccount from "../pages/DeleteAccount";
 import ScrollToTop from "../components/Layout/ScrollToTop";
 import OrderSuccesful from "../pages/OrderSuccesful";
+import NotFound from "../pages/NotFound";
+import SearchResults from "../pages/SearchResults";
 
 function Routers() {
   const { currentUser } = useAuth();
@@ -55,6 +57,8 @@ function Routers() {
           }
         />
         <Route path="/order" element={<OrderSuccesful />} />
+        <Route path="/search-results" element={<SearchResults />} />
+        <Route path="*" element={<NotFound />} />
       </Routes>
     </>
   );

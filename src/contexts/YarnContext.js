@@ -12,6 +12,20 @@ export function YarnProvider({ children }) {
   const [yarns, setYarns] = useState([]);
   const [loading, setLoading] = useState(true);
 
+  const fetchSearchYarns = async () => {
+    try {
+      const yarnsCollectionRef = collection(db, "yarns");
+      const data = await getDocs(yarnsCollectionRef);
+      const yarnsData = data.docs.map((doc) => ({
+        ...doc.data(),
+        id: doc.id,
+      }));
+      return yarnsData;
+    } catch (error) {
+      console.error("Error fetching yarns:", error);
+    }
+  };
+
   useEffect(() => {
     const fetchYarns = async () => {
       try {
@@ -131,6 +145,7 @@ export function YarnProvider({ children }) {
     yarns,
     loading,
     updateYarns,
+    fetchSearchYarns,
   };
 
   return <YarnContext.Provider value={value}>{children}</YarnContext.Provider>;

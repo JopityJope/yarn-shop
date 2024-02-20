@@ -1,14 +1,18 @@
 import React, { useState, useRef, useEffect } from "react";
 import Search from "./Search";
 import Close from "./Close";
+import { useNavigate } from "react-router-dom";
 
 function SearchForm({ isActiveMobile, onClose }) {
   const [isSmallScreen, setIsSmallScreen] = useState(
     () => window.innerWidth <= 990
   );
   const [searchQuery, setSearchQuery] = useState("");
+  const navigate = useNavigate();
 
-  const handleInputChange = () => {};
+  const handleInputChange = (e) => {
+    setSearchQuery(e.target.value);
+  };
 
   useEffect(() => {
     const handleResize = () => {
@@ -25,7 +29,16 @@ function SearchForm({ isActiveMobile, onClose }) {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log();
+    if (searchQuery.trim() !== "") {
+      navigate(`/search-results?query=${encodeURIComponent(searchQuery)}`);
+
+      setIsActive(false);
+      onClose();
+
+      setTimeout(() => {
+        setSearchQuery("");
+      }, 1000);
+    }
   };
 
   const handleCloseClickMobile = () => {
@@ -33,13 +46,31 @@ function SearchForm({ isActiveMobile, onClose }) {
     onClose();
   };
 
+  const handleKeyDown = (e) => {
+    if (e.key === "Enter") {
+      e.preventDefault();
+      if (searchQuery.trim() !== "") {
+        navigate(`/search-results?query=${encodeURIComponent(searchQuery)}`);
+
+        setIsActive(false);
+        onClose();
+
+        setTimeout(() => {
+          setSearchQuery("");
+        }, 1000);
+      }
+    } else if (e.key === "Escape") {
+      handleCloseClickMobile();
+    }
+  };
+
   //Mobile
   const MobileStructure = (
-    <form
-      onSubmit={handleSubmit}
+    <div
+      onKeyDown={handleKeyDown}
       className={isActiveMobile ? "search--mobile active" : "search--mobile"}
     >
-      <button className="search__btn--mobile">
+      <button className="search__btn--mobile" onClick={handleSubmit}>
         <Search />
       </button>
       <input
@@ -54,7 +85,7 @@ function SearchForm({ isActiveMobile, onClose }) {
       <button className="close__btn--mobile" onClick={handleCloseClickMobile}>
         <Close />
       </button>
-    </form>
+    </div>
   );
 
   //Desktop
@@ -66,9 +97,12 @@ function SearchForm({ isActiveMobile, onClose }) {
     setIsActive(true);
   };
 
-  const handleBlur = () => {
-    setIsActive(false);
-    inputRef.current.value = "";
+  const handleBlur = (event) => {
+    const clickedButton = event.relatedTarget;
+    if (!clickedButton || !clickedButton.classList.contains("submit___btn")) {
+      setIsActive(false);
+      setSearchQuery("");
+    }
   };
 
   const DesktopStructure = (
@@ -86,10 +120,15 @@ function SearchForm({ isActiveMobile, onClose }) {
         onChange={handleInputChange}
         autoComplete="off"
       />
-
-      <button className="search__btn" onClick={handleClick}>
-        <Search />
-      </button>
+      {isActive ? (
+        <button className="submit___btn" onClick={handleSubmit}>
+          <Search />
+        </button>
+      ) : (
+        <button className="search__btn" onClick={handleClick}>
+          <Search />
+        </button>
+      )}
     </form>
   );
 
