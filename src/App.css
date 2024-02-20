@@ -1742,6 +1742,8 @@ input[type="radio"]:checked {
   font-size: 1.7rem;
   font-weight: 600;
   letter-spacing: 1px;
+  flex-wrap: nowrap;
+  width: fit-content;
 }
 .delivery__name {
   font-size: 1.5rem;
@@ -1753,6 +1755,11 @@ input[type="radio"]:checked {
 @media (max-width: 700px) {
   .radio-button__wrapper {
     gap: 4rem;
+  }
+  .delivery__price {
+    font-size: 1.5rem;
+    font-weight: 600;
+    letter-spacing: 1px;
   }
 }
 

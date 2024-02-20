@@ -352,7 +352,7 @@ function Checkout() {
                 htmlFor="standard-delivery"
               >
                 <p className="delivery__price">
-                  {deliveryPrice !== 0 ? `€ ${deliveryPrice}` : "FREE"}
+                  {deliveryPrice !== 0 ? `€${deliveryPrice}` : "FREE"}
                 </p>
                 <div className="delivery__details">
                   <p className="delivery__name">
