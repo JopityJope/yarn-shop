@@ -41,7 +41,7 @@ function WishList() {
 
       <div className="wishlist__container">
         <Helmet title="Wishlist" />
-        {wishlistItems.length === 0 ? (
+        { currentUser && wishlistItems.length === 0 ? (
           <>
             <p className="no-yarns__message">
               Want to save the items you love? Just click on the heart icon
@@ -120,7 +120,7 @@ function WishList() {
           </>
         )}
       </div>
-      {!currentUser && wishlistItems.length > 0 ? (
+      {!currentUser && wishlistItems.length === 0 ? (
         <div className="wishlist__container">
           <p className="no-yarns__message">
             Sign up to sync your Saved Items across all your devices.
