@@ -68,7 +68,7 @@ function Cart() {
         </div>
 
         <div className="cart__container">
-          {cartItems.length === 0 ? (
+          {currentUser && cartItems.length === 0 ? (
             <>
               <p className="no-yarns__message">
                 Your cart is empty!
@@ -186,7 +186,7 @@ function Cart() {
             </>
           )}
         </div>
-        {!currentUser && cartItems.length > 0 ? (
+        {!currentUser && cartItems.length === 0 ? (
           <div className="cart__container">
             <p className="no-yarns__message">
               Sign up to sync your Cart across all your devices.
