@@ -1,70 +1,46 @@
-# Getting Started with Create React App
+# Yarn Shop Application
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Welcome to the DROPS Yarns Web Shop! This application is inspired by the DROPS Yarns website, and has been expanded to include additional features beyond just browsing yarns. Users can now enjoy a complete shopping experience, including adding products to their wishlist and cart, managing these lists, making purchases, viewing orders, and more. It also provides features like user authentication and managinig user profile.
 
-## Available Scripts
+This project is a full-stack web shop application built using ReactJS and Firebase.
 
-In the project directory, you can run:
+## Overview
 
-### `npm start`
+### Shopping Experience
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+- Product Browsing: Explore a wide range of yarns and related products.
+- Wishlist Management: Save favorite items for future reference.
+- Cart Management: Add items to the cart, adjust quantities, and proceed to checkout.
+- Checkout Process: Easily enter your shipping and payment details, review your order, and complete your purchase.
+- Order History: Access past purchases and view order details.
+- Search Functionality: Quickly find products based on keywords with the search feature.
+- Sorting and Filtering: Sort and filter products by criteria such as price, length, and thickness.
+- Responsive Design: Seamless shopping experience across different devices and screen sizes.
+  
+### User Authentication
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+- Sign Up: Create an account to access all features.
+- Log In: Securely log in to manage profile, wishlist, and cart.
+- Profile Management: Update profile information and preferences.
+- Account Deletion: Delete user profile and associated data securely.
 
-### `npm test`
+### CRUD Functionality
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+- Create: Add new user accounts, add user details, and create whishlist and carts.
+- Read: Browse through products and user information.
+- Update: Modify user profiles, preferences, whishlist and carts.
+- Delete: Remove user accounts as needed.
 
-### `npm run build`
+### Links
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+- Live Site URL: https://yarn-shop.vercel.app/
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+## My process
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+### Built with
 
-### `npm run eject`
+- React
+- React Router
+- Firebase Authentication
+- Firebase Firestore
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
-
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
-
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
